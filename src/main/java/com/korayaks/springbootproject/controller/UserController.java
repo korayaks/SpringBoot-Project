@@ -1,39 +1,35 @@
 package com.korayaks.springbootproject.controller;
 
 import com.korayaks.springbootproject.entity.User;
-import com.korayaks.springbootproject.repos.UserRepository;
+import com.korayaks.springbootproject.services.UserService;
+import com.korayaks.springbootproject.utils.dtos.UserCreateDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.PostConstruct;
-import java.util.Calendar;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 import java.util.List;
 
+@Transactional
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private final UserRepository userRepository;
 
-    @PostConstruct
-    public void init() {
-        User user = new User();
-        user.setName("burak koray");
-        user.setSurname("aksoy");
-        user.setAddress("istanbul");
-        user.setBirthDate(Calendar.getInstance().getTime());
-        user.setId("K0001");
-        userRepository.save(user);
-    }
+    @Autowired
+    UserService userService;
 
     @GetMapping("/{search}")
     public ResponseEntity<List<User>> getUser(@PathVariable String search) {
 
-        return ResponseEntity.ok(userRepository.findByNameLikeOrSurnameLike(search, search));
+        return ResponseEntity.ok(userService.getUsersByFirstNameAndLastName(search, search));
+    }
+
+    @PostMapping("/createUser")
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserCreateDto userCreateDto) {
+
+        return ResponseEntity.ok(userService.createUser(userCreateDto));
     }
 
 }

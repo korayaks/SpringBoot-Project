@@ -13,7 +13,7 @@ public interface UserRepository extends ElasticsearchRepository<User, String> {
     @Query("{\"bool\": {\"must\": [{\"match\": {\"name\": \"?0\"}}]}}")
     List<User> getByCustomQuery(String search);
     
-    List<User> findByNameLikeOrSurnameLike(String name, String surname);
+    List<User> findByFirstNameOrLastName(String firstName, String lastName);
 
 
 }

@@ -1,12 +1,14 @@
 package com.korayaks.springbootproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Document(indexName = "users")
 @Getter
@@ -16,12 +18,12 @@ import java.util.Date;
 public class User {
     @Id
     private String id;
-    @Field(name = "name", type = FieldType.Text)
-    private String name;
-    @Field(name = "surname", type = FieldType.Text)
-    private String surname;
+    @Field(name = "first name", type = FieldType.Text)
+    private String firstName;
+    @Field(name = "last name", type = FieldType.Text)
+    private String lastName;
     @Field(name = "address", type = FieldType.Text)
     private String address;
-    @Field(name = "birth date", type = FieldType.Date)
-    private Date birthDate;
+    @Field(name = "age", type = FieldType.Text)
+    private String age;
 }
