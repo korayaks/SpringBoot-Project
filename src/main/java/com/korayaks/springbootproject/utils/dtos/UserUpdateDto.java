@@ -2,13 +2,12 @@ package com.korayaks.springbootproject.utils.dtos;
 
 import lombok.Data;
 
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
-public class UserCreateDto {
+public class UserUpdateDto {
     @NotNull(message = "'firstName' may not be null")
     @Size(max = 30, message = "'firstName' field can be maximum 30 characters.")
     private String firstName;
