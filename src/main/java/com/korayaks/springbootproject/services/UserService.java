@@ -12,4 +12,6 @@ public interface UserService {
     User createUser(UserCreateDto userCreateDto);
 
     User updateUser(UserUpdateDto userUpdateDto, String id);
+
+    String deleteUser(String id);
 }

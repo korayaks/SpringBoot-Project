@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(UserUpdateDto userUpdateDto, String id) {
         Optional x = userRepository.findById(id);
-        if (x == null) {
+        if (!userRepository.existsById(id)) {
             throw new RuntimeException("this user does not exist!");
         }
         User existUser = modelMapper.map(x, User.class);
@@ -49,5 +49,14 @@ public class UserServiceImpl implements UserService {
         existUser.setAge(userUpdateDto.getAge());
         userRepository.save(existUser);
         return existUser;
+    }
+
+    @Override
+    public String deleteUser(String id) {
+        if (!userRepository.existsById(id)) {
+            throw new RuntimeException("this user does not exist!");
+        }
+        userRepository.deleteById(id);
+        return "user has been deleted!";
     }
 }

@@ -17,4 +17,8 @@ public interface UserRepository extends ElasticsearchRepository<User, String> {
     List<User> findByFirstNameOrLastName(String firstName, String lastName);
 
     Optional findById(String id);
+
+    void deleteById(String id);
+
+    boolean existsById(String id);
 }
