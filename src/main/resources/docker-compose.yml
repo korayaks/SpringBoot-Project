@@ -7,3 +7,8 @@ services:
       - '9300:9300'
     environment:
       - discovery.type=single-node
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - '15672:15672'
+      - '5672:5672'

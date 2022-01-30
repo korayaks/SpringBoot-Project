@@ -1,6 +1,7 @@
 package com.korayaks.springbootproject.controller;
 
 import com.korayaks.springbootproject.entity.User;
+import com.korayaks.springbootproject.services.RabbitMQSender;
 import com.korayaks.springbootproject.services.UserService;
 import com.korayaks.springbootproject.utils.dtos.UserCreateDto;
 import com.korayaks.springbootproject.utils.dtos.UserUpdateDto;
@@ -15,22 +16,25 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
     UserService userService;
 
+    @Autowired
+    RabbitMQSender rabbitMQSender;
+
     @GetMapping("/{search}")
     public ResponseEntity<List<User>> getUser(@PathVariable String search) {
-
         return ResponseEntity.ok(userService.getUsersByFirstNameAndLastName(search, search));
     }
 
     @PostMapping("/createUser")
     public ResponseEntity<?> createUser(@Valid @RequestBody UserCreateDto userCreateDto) {
-
-        return ResponseEntity.ok(userService.createUser(userCreateDto));
+        User createdUser = userService.createUser(userCreateDto);
+        rabbitMQSender.send(createdUser);
+        return ResponseEntity.ok(createdUser);
     }
 
     @PutMapping("/updateUser/{id}")

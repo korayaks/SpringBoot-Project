@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(UserUpdateDto userUpdateDto, String id) {
-        Optional x = userRepository.findById(id);
+        Optional<User> x = userRepository.findById(id);
         if (!userRepository.existsById(id)) {
             throw new RuntimeException("this user does not exist!");
         }
